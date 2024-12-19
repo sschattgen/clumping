@@ -13,6 +13,7 @@ The package requires `pandas`, `numpy`,`scipy`, and `scikit-learn`. Actually, I 
 ### Install the package into your environment (I installed it in my conga conda env)
 
 `cd <path>/clumping`
+#
 `pip install -e .`
 
 ### Compile the C++ TCRdist and neighbor tools
@@ -27,6 +28,7 @@ The package requires `pandas`, `numpy`,`scipy`, and `scikit-learn`. Actually, I 
 For the test run:
 
 `cd <path>/clumping`
+#
 `python scripts/run_pipeline.py --paired_data_tsv_file test/test.tsv --organism human --outfile_prefix test/tmp_TIRTL`
 
 Currently three files are output: `_lit_matches.tsv` containing the lit matches, `_clumping.tsv` containing the clumping groups, an `_clean_clones.tsv` as the cleaned version of the input used for the clumping and matching.
