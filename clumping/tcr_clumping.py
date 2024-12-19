@@ -649,7 +649,7 @@ def match_tcrs_to_db_tcrs(
               'default literature TCR database; for more info see',
               'conga/data/new_paired_tcr_db_for_matching_nr_README.txt')
         db_tcrs_tsvfile = Path.joinpath(
-            util.path_to_data, 'new_paired_tcr_db_for_matching_nr.tsv')
+            util.path_to_data, 'new_paired_tcr_db_for_matching_nr_v2.tsv')
 
     print('Matching to paired tcrs in', db_tcrs_tsvfile)
 
