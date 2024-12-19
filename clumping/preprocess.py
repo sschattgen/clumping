@@ -31,9 +31,14 @@ def add_allele(df):
     return df
 
 def cleanup_paired_chains(df, organism):
-    df = df.rename(columns={'alpha_nuc_seq':'cdr3a_nucseq','beta_nuc_seq':'cdr3b_nucseq'})
+
+    try:
+        df = df.rename(columns={ 'alpha_nuc':'cdr3a_nucseq','beta_nuc':'cdr3b_nucseq'})
+    except:
+        df = df.rename(columns={ 'alpha_nuc_seq':'cdr3a_nucseq','beta_nuc_seq':'cdr3b_nucseq'})
+
     df = df[(~df['cdr3a'].str.contains('_|\*')) & (~df['cdr3b'].str.contains('_|\*'))].copy()
-    df = df.drop_duplicates(subset=['va','ja','vb','jb','cdr3a_nucseq','cdr3b_nucseq'])
+    df = df.drop_duplicates(subset=['va','ja','vb','jb','cdr3a','cdr3b'])
 
     #sanity check that the len of aa seq goes into len of nuc seq 3 times
     df['cdr3a_nucseq_len'] = df['cdr3a_nucseq'].apply(lambda x: len(x))
