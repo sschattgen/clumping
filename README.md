@@ -23,13 +23,15 @@ The package requires `pandas`, `numpy`,`scipy`, and `scikit-learn`. Actually, I 
 
 ### The tools could be run interactively or using the script `run_pipeline.py`:
 
-`python scripts/run_pipeline.py --paired_data_tsv_file <path-to-tsv> --organism human --outfile_prefix <path-and-prefix-for-outputs>`
+`python scripts/run_pipeline.py --paired_data_tsv_file <path-to-tsv> --organism human --outfile_prefix <path-and-prefix-for-outputs>` and setting a flag for `--all`, `--clumping`, or `--lit_match`.
+
+
 
 For the test run:
 
 `cd <path>/clumping`
 ###
-`python scripts/run_pipeline.py --paired_data_tsv_file test/test.tsv --organism human --outfile_prefix test/tmp_TIRTL`
+`python scripts/run_pipeline.py --paired_data_tsv_file test/test.tsv --organism human --outfile_prefix test/tmp_TIRTL --all`
 
 Currently three files are output: `_lit_matches.tsv` containing the lit matches, `_clumping.tsv` containing the clumping groups, an `_clean_clones.tsv` as the cleaned version of the input used for the clumping and matching.
 
