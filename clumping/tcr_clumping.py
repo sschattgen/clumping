@@ -647,7 +647,7 @@ def match_tcrs_to_db_tcrs(
 
         print('tcr_clumping.match_adata_tcrs_to_db_tcrs: Matching to',
               'default literature TCR database; for more info see',
-              'conga/data/new_paired_tcr_db_for_matching_nr_README.txt')
+              'clumping/data/new_paired_tcr_db_for_matching_nr_README.txt')
         db_tcrs_tsvfile = Path.joinpath(
             util.path_to_data, 'new_paired_tcr_db_for_matching_nr_v2.tsv')
 
@@ -689,7 +689,85 @@ def match_tcrs_to_db_tcrs(
 
     return results
 
+def match_tcrs_to_metaconga_clumps(
+        df,
+        organism,
+        outfile_prefix=None,
+        db_tcrs_tsvfile=None,
+        tmpfile_prefix=None,
+        adjusted_pvalue_threshold = 1.0, # adjusted for size of df AND db_tcrs_tsvfile
+        tcrs_for_background_generation = None, # default is to use tcrs from df
+        num_random_samples_for_bg_freqs = 50000,
+        nocleanup=False,
+        fixup_allele_assignments_in_background_tcrs_df=True,
+):
+    ''' Find significant tcrdist matches between tcrs in df and tcrs
+    in db_tcrs_tsvfile
 
+    by calling the find_significant_tcrdist_matches function above (see that
+    docstring too)
+
+    returns results pd.DataFrame with columns:
+       tcrdist, pvalue_adj, va, ja, cdr3a, vb, jb, cdr3b,
+       PLUS all columns in db_tcrs_tsvfile prepended with 'db_' string
+
+    db_tcrs_tsvfile has at a minimum the columns:
+       va (or va_gene) cdr3a vb (or vb_gene) cdr3b
+
+    NOTE: reported pvalues are adjusted for sizes of both df and
+       db_tcrs_tsvfile
+
+    '''
+
+    if db_tcrs_tsvfile is None:
+        if organism != 'human':
+            print('ERROR: match_tcrs_to_metaconga_clumps db_tcrs_tsvfile is None')
+            print('but we only have built-in database for organism=human')
+            return pd.DataFrame() ##### NOTE EARLY RETURN HERE ################
+
+        print('tcr_clumping.match_tcrs_to_metaconga_clumps: Matching to',
+              'default literature TCR database; for more info see',
+              'clumping/data/big_combo_tcrs_2024-02-02a_gp4_MCC10_NG200_groups_info_MCC10_extras.tsv')
+        db_tcrs_tsvfile = Path.joinpath(
+            util.path_to_data, 'big_combo_tcrs_2024-02-02a_gp4_MCC10_NG200_groups_info_MCC10_extras.tsv')
+
+    print('Matching to metaCoNGA clumps in: ', db_tcrs_tsvfile)
+
+    query_tcrs_df = df['va ja cdr3a vb jb cdr3b'.split()].copy()
+    db_tcrs_df = pd.read_csv(db_tcrs_tsvfile, sep='\t')
+
+    # possibly swap legacy column names
+    if 'va' not in db_tcrs_df.columns and 'va_gene' in db_tcrs_df.columns:
+        db_tcrs_df['va'] = db_tcrs_df['va_gene']
+    if 'vb' not in db_tcrs_df.columns and 'vb_gene' in db_tcrs_df.columns:
+        db_tcrs_df['vb'] = db_tcrs_df['vb_gene']
+
+    if tcrs_for_background_generation is None:
+        background_tcrs_df = df['va ja cdr3a cdr3a_nucseq vb jb cdr3b cdr3b_nucseq'.split()]\
+                                  .copy()
+    else:
+        background_tcrs_df = pd.DataFrame(
+            [ dict(va=x[0], ja=x[1], cdr3a=x[2], cdr3a_nucseq=x[3],
+                   vb=y[0], jb=y[1], cdr3b=y[2], cdr3b_nucseq=y[3])
+              for x,y in tcrs_for_background_generation ])
+
+    results = find_significant_tcrdist_matches(
+        query_tcrs_df,
+        db_tcrs_df,
+        organism,
+        tmpfile_prefix=tmpfile_prefix,
+        adjusted_pvalue_threshold=adjusted_pvalue_threshold,
+        background_tcrs_df=background_tcrs_df,
+        num_random_samples_for_bg_freqs=num_random_samples_for_bg_freqs,
+        fixup_allele_assignments_in_background_tcrs_df=fixup_allele_assignments_in_background_tcrs_df,
+        nocleanup=nocleanup,
+        )
+
+    #if not results.empty:
+    #    results.rename(columns={'query_index':'clone_index'}, inplace=True)
+    #     results.sort_values(['pvalue_adj','tcrdist'], inplace=True)
+
+    return results
 
 def strict_single_chain_match_adata_tcrs_to_db_tcrs(
         adata,

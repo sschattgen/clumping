@@ -2,6 +2,10 @@
 
 The `clumping` package reutilizes the TCR clumping and lit db matching tools from `CoNGA` and adapts them from use on paired `TIRTLseq` outputs.
 
+`--lit_match` matches to TCRs of known antigen specifities.
+
+`--mc_match` matches to metaCoNGA convergent clumps annotates clonotypes by the associated metadata.
+
 The package requires `pandas`, `numpy`,`scipy`, and `scikit-learn`. Actually, I don't know if the last two are required to run but need to clean this up more.
 
 # Installation and running
@@ -23,15 +27,13 @@ The package requires `pandas`, `numpy`,`scipy`, and `scikit-learn`. Actually, I 
 
 ### The tools could be run interactively or using the script `run_pipeline.py`:
 
-`python scripts/run_pipeline.py --paired_data_tsv_file <path-to-tsv> --organism human --outfile_prefix <path-and-prefix-for-outputs>` and setting a flag for `--all`, `--clumping`, or `--lit_match`.
-
-
+`python scripts/run_pipeline.py --paired_data_tsv_file <path-to-tsv> --organism human --outfile_prefix <path-and-prefix-for-outputs>` and setting a flag for `--all`, `--clumping`, `--lit_match`, or `--mc_match` for metaCoNGA matching.
 
 For the test run:
 
 `cd <path>/clumping`
-###
+
 `python scripts/run_pipeline.py --paired_data_tsv_file test/test.tsv --organism human --outfile_prefix test/tmp_TIRTL --all`
 
-Currently three files are output: `_lit_matches.tsv` containing the lit matches, `_clumping.tsv` containing the clumping groups, an `_clean_clones.tsv` as the cleaned version of the input used for the clumping and matching.
+Currently three files are output: `_metaCoNGA_matches.tsv` containing the metaCoNGA matches, `_lit_matches.tsv` containing the lit matches, `_clumping.tsv` containing the clumping groups, an `_clean_clones.tsv` as the cleaned version of the input used for the clumping and matching.
 
