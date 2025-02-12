@@ -14,7 +14,7 @@ The package requires `pandas`, `numpy`,`scipy`, and `scikit-learn`. Actually, I 
 
 `git clone https://github.com/sschattgen/clumping.git`
 
-### Install the package into your environment (I installed it in my conga conda env)
+### Install the package into your environment. We recommend using a conda environment.
 
 `cd <path>/clumping`
 ###
