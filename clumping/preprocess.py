@@ -27,7 +27,10 @@ MIN_CDR3_LEN = 6
 
 def add_allele(df):
     for i in ['va','ja','vb','jb']:
-        df[i] = df[i].apply(lambda x: x + "*01")
+        if any(df[i].str.contains('_|\*')):
+            next
+        else:
+            df[i] = df[i].apply(lambda x: x + "*01")
     return df
 
 def cleanup_paired_chains(df, organism):
