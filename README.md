@@ -27,7 +27,18 @@ The package requires `pandas`, `numpy`,`scipy`, and `scikit-learn`. Actually, I 
 
 ### The tools could be run interactively or using the script `run_pipeline.py`:
 
-`python scripts/run_pipeline.py --paired_data_tsv_file <path-to-tsv> --organism human --outfile_prefix <path-and-prefix-for-outputs>` and setting a flag for `--all`, `--clumping`, `--lit_match`, or `--mc_match` for metaCoNGA matching.
+`python scripts/run_pipeline.py --paired_data_tsv_file <path-to-tsv> --organism human --outfile_prefix <path-and-prefix-for-outputs>` and setting a flag for `--all`, `--clumping`, `--lit_match`, or `--mc_match`.
+
+### Input format
+
+The pipeline currently takes TIRTLseq output directly, but any paired TCR sequences in tabular format could be used by setting the column names to: the following:
+
+`va` - alpha variable gene
+`ja` - alpha joining gene
+`vb` - beta variable gene
+`jb` - beta joining gene
+`cdr3a` - alpha CDR3 amino acid sequence
+`cdr3b` - beta CDR3 amino acid sequence
 
 For the test run:
 
@@ -35,5 +46,12 @@ For the test run:
 
 `python scripts/run_pipeline.py --paired_data_tsv_file test/test.tsv --organism human --outfile_prefix test/tmp_TIRTL --all`
 
-Currently three files are output: `_metaCoNGA_matches.tsv` containing the metaCoNGA matches, `_lit_matches.tsv` containing the lit matches, `_clumping.tsv` containing the clumping groups, an `_clean_clones.tsv` as the cleaned version of the input used for the clumping and matching.
+Currently, three files are output: `_metaCoNGA_matches.tsv` containing the metaCoNGA matches, `_lit_matches.tsv` containing the lit matches, `_clumping.tsv` containing the clumping groups, an `_clean_clones.tsv` as the cleaned version of the input used for the clumping and matching.
 
+### Organism
+
+Literature and metaCoNGA matching can only be performed using human abTCR data. Clumping will work for ab, gd, and ig data across all supported species.
+
+### Contact 
+
+Please email `stefan.schattgen` at `stjude` dot `org` for help. 
