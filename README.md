@@ -33,12 +33,12 @@ The package requires `pandas`, `numpy`,`scipy`, and `scikit-learn`. Actually, I 
 
 The pipeline currently takes TIRTLseq or `make_10x_clones_file` out put for `CoNGA` output directly and changes the column names to:
 
-`va` - alpha variable gene
-`ja` - alpha joining gene
-`vb` - beta variable gene
-`jb` - beta joining gene
-`cdr3a` - alpha CDR3 amino acid sequence
-`cdr3b` - beta CDR3 amino acid sequence
+`va` - alpha variable gene\
+`ja` - alpha joining gene\
+`vb` - beta variable gene\
+`jb` - beta joining gene\
+`cdr3a` - alpha CDR3 amino acid sequence\
+`cdr3b` - beta CDR3 amino acid sequence\
 
 Really and paired TCR sequences in tabular format could be used by setting columns to these names.
 
