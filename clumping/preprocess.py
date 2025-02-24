@@ -40,6 +40,11 @@ def cleanup_paired_chains(df, organism):
     except:
         df = df.rename(columns={ 'alpha_nuc_seq':'cdr3a_nucseq','beta_nuc_seq':'cdr3b_nucseq'})
 
+
+    if 'va_gene' in df.columns: # this is a test for conga-style column names, maybe not foolproof though.
+        df = df.rename(columns={ 'va_gene':'va','ja_gene':'ja','vb_gene':'vb','jb_gene':'jb','va2_gene':'va2','ja2_gene':'ja2'})
+
+
     df = df[(~df['cdr3a'].str.contains('_|\*')) & (~df['cdr3b'].str.contains('_|\*'))].copy()
     df = df.drop_duplicates(subset=['va','ja','vb','jb','cdr3a','cdr3b'])
 

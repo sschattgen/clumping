@@ -31,7 +31,7 @@ The package requires `pandas`, `numpy`,`scipy`, and `scikit-learn`. Actually, I 
 
 ### Input format
 
-The pipeline currently takes TIRTLseq output directly, but any paired TCR sequences in tabular format could be used by setting the column names to: the following:
+The pipeline currently takes TIRTLseq or `make_10x_clones_file` out put for `CoNGA` output directly and changes the column names to:
 
 `va` - alpha variable gene
 `ja` - alpha joining gene
@@ -39,6 +39,10 @@ The pipeline currently takes TIRTLseq output directly, but any paired TCR sequen
 `jb` - beta joining gene
 `cdr3a` - alpha CDR3 amino acid sequence
 `cdr3b` - beta CDR3 amino acid sequence
+
+Really and paired TCR sequences in tabular format could be used by setting columns to these names.
+
+### Run test
 
 For the test run:
 
